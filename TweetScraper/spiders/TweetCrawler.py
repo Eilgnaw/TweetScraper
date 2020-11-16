@@ -121,6 +121,7 @@ class TweetScraper(CrawlSpider):
         # inspect_response(response, self)
 
         # handle current page
+        # logger.info("LOG Add tweet:%s" %response.text)
         data = json.loads(response.text)
         for item in self.parse_tweet_item(data['globalObjects']['tweets']):
             yield item

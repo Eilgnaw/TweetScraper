@@ -19,20 +19,26 @@ class SaveToFilePipeline(object):
 
 
     def process_item(self, item, spider):
+        
         if isinstance(item, Tweet):
-            savePath = os.path.join(self.saveTweetPath, item['id_'])
+            savePath = os.path.join(self.saveTweetPath, item['id_']+".txt")
+            logger.info("LOG Tweet if:%s" %savePath)
             if os.path.isfile(savePath):
+                #logger.info("LOG Tweet if:%s" %savePath)
                 pass # simply skip existing items
                 # logger.debug("skip tweet:%s"%item['id_'])
                 ### or you can rewrite the file, if you don't want to skip:
                 # self.save_to_file(item,savePath)
-                # logger.debug("Update tweet:%s"%item['id_'])
+                #logger.info("Update tweet:%s"%item['id_'])
             else:
+                #logger.info("LOG Tweet else:%s" %savePath)
                 self.save_to_file(item,savePath)
-                logger.debug("Add tweet:%s" %item['id_'])
+                #logger.info("Add tweet:%s" %item['id_'])
+            #logger.info("LOG Tweet logger:%s" %savePath)
 
         elif isinstance(item, User):
-            savePath = os.path.join(self.saveUserPath, item['id_'])
+            #logger.info("LOG Tweet User:%s" %item['id_'])
+            savePath = os.path.join(self.saveUserPath, item['id_']+".txt")
             if os.path.isfile(savePath):
                 pass # simply skip existing items
                 # logger.debug("skip user:%s"%item['id_'])
@@ -48,6 +54,7 @@ class SaveToFilePipeline(object):
 
 
     def save_to_file(self, item, fname):
+        logger.debug("save_to_file tweet:%s" %item['id_'])
         ''' input: 
                 item - a dict like object
                 fname - where to save
